@@ -2,18 +2,21 @@
 title: "Loan_EDLD629_HW1"
 author: "Christopher Loan"
 date: "4/9/2021"
-output: html_document
+output: 
+  html_document:
+    toc: true
+    toc_float: true
 ---
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-# Prep-work
+# Prep-work {.tabset .tabset-fade .tabset-pills}
 
-## Packages & Data
+## Packages & Data 
 
-```{r}
+```{r, include = F}
 library(tidyverse)
 library(lme4)
 library(performance)
@@ -49,9 +52,11 @@ long_dat <-
 head(long_dat,1)
 ```
 
-# Part A
+# Part 2 Model fit and evaluation {.tabset .tabset-fade .tabset-pills}
 
-## Model 1. Unconditional growth model with random intercepts and parallel slopes
+## Part A {.tabset .tabset-fade .tabset-pills}
+
+### Model 1. Unconditional growth model with random intercepts and parallel slopes
 
 ```{r}
 mod1 <- 
@@ -62,7 +67,7 @@ mod1 <-
          )
 ```
 
-## Model 2. Conditional growth model with random intercepts, parallel slopes, and grade-level fixed effects
+### Model 2. Conditional growth model with random intercepts, parallel slopes, and grade-level fixed effects
 
 ```{r}
 mod2 <- 
@@ -73,7 +78,7 @@ mod2 <-
          )
 ```
 
-## Model 3. Unconditional growth model with random intercepts and random slopes
+### Model 3. Unconditional growth model with random intercepts and random slopes
 
 ```{r}
 mod3 <- 
@@ -84,7 +89,7 @@ mod3 <-
          )
 ```
 
-## Model 4. Conditional growth model with random intercepts, random slopes, and grade-level fixed effects
+### Model 4. Conditional growth model with random intercepts, random slopes, and grade-level fixed effects
 
 ```{r}
 mod4 <- 
@@ -95,29 +100,29 @@ mod4 <-
          )
 ```
 
-# Part B
+## Part B {.tabset .tabset-fade .tabset-pills}
 
-## Model 1 vs 2
+### Model 1 vs 2
 ```{r}
 anova(mod1, mod2)
 compare_performance(mod1, mod2)
 ```
 
-## Model 2 vs 3
+### Model 2 vs 3
 
 ```{r}
 anova(mod2, mod3)
 compare_performance(mod2, mod3)
 ```
 
-## Model 3 vs 4
+### Model 3 vs 4
 
 ```{r}
 anova(mod3, mod4)
 compare_performance(mod3, mod4)
 ```
 
-## Which model fits the data best?
+### Best fitting model?
 
 Four linear growth models were estimated to assess student scores on a seasonally administered test:
 
@@ -128,22 +133,13 @@ Four linear growth models were estimated to assess student scores on a seasonall
 
 Models were compared with successive likelihood ratio tests (LRTs), AIC, and BIC. Significant LRTs, lower AICs, and lower BICs all suggested that successive (more complex) models continued to fit the data better until model 4 was identified as the optimal model.
 
-# Part C
+## Part C {.tabset .tabset-fade .tabset-pills}
 
 ```{r}
 summary(mod4)
-confint(mod4)
+# omitted from knitting for time
+#confint(mod4) 
 ```
-
-          2.5 %      97.5 %
-.sig01        9.986782  10.1886483
-.sig02        0.316260   0.3457314
-.sig03        1.144692   1.1720972
-.sigma        4.697507   4.7304326
-(Intercept) 188.652397 188.9300296
-grade4       -8.258682  -8.0773529
-grade5      -16.850919 -16.5328461
-wave          6.147690   6.2063883
 
 A multilevel model was fit to n = 22,500 students' data to see growth in a seasonally-administered benchmark assessment over 3 years. A model with random intercepts, random slopes, and grade-level fixed effects was found to fit the data best (see above). 
 
@@ -157,7 +153,9 @@ Small, positively correlated fixed effects of the intercept with grade 4 (0.05) 
 
 Taken together, this model suggests a fan-closed type of growth, with participants who show more growth demonstrated larger degrees of loss over the summer (i.e., greater magnitude of "summer slump"), but with participants converging in scores overall.
 
-# Part 3: Plots of the model fit
+# Part 3: Plots of the model fit {.tabset .tabset-fade .tabset-pills}
+
+## Pivoting 
 
 ```{r}
 plot_dat <- 
@@ -171,6 +169,8 @@ plot_dat <- plot_dat %>%
            predict(mod4, newdata = plot_dat)
   )
 ```
+
+## Plotting
 
 ```{r}
 plot_dat %>% 
