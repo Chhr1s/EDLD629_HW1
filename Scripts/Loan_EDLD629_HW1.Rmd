@@ -62,7 +62,7 @@ head(long_dat,1)
 mod1 <- 
   long_dat %>% 
   lmer(formula = 
-         scores ~ grade + (1 | sid), 
+         scores ~ wave + (1 | sid), 
        control = lmerControl(optimizer = "bobyqa")
          )
 ```
